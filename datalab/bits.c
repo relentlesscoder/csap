@@ -163,8 +163,7 @@ int getByte(int x, int n) {
  *   Rating: 3 
  */
 int logicalShift(int x, int n) {
-  //construct 0xFFFFFFFF
-  int mask_set = ~0x0;
+  int mask_set = 0x1;
   //construct 0x80000000
   mask_set = (mask_set << 31);
   //set the n+1 most significant bits to 1, the rest bits are 0
