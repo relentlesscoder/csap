@@ -152,7 +152,7 @@ int bitAnd(int x, int y) {
 int getByte(int x, int n) {
   int count = (n << 3);
   x = (x >> count);
-  return (x & 0x000000FF);
+  return (x & 0xFF);
 }
 /* 
  * logicalShift - shift x to the right by n, using a logical shift
@@ -163,12 +163,19 @@ int getByte(int x, int n) {
  *   Rating: 3 
  */
 int logicalShift(int x, int n) {
-  int mask_unset = 0x00000000;
-  int mask_set = 0xFFFFFFFF;
+  //construct 0xFFFFFFFF
+  int mask_set = ~0x0;
+  //construct 0x80000000
+  mask_set = (mask_set << 31);
+  //set the n+1 most significant bits to 1, the rest bits are 0
   mask_set = (mask_set >> n);
-  mask_unset = (mask_unset >> n);
-  int mask = (mask_unset ^ mask_set);
-  x = (x >> n);   
+  //left shift to remove the extra 1 bit
+  mask_set = (mask_set << 1);
+  //set the n most significant bit to 0, the rest bits are 1
+  mask_set = ~mask_set;
+  //right shift x, it is arithmetic
+  x = (x >> n);
+  //clear the most significant n bits and maintain the rest   
   return (x & mask);
 }
 /*
