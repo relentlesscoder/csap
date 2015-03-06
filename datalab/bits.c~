@@ -179,7 +179,22 @@ int logicalShift(int x, int n) {
  *   Rating: 4
  */
 int bitCount(int x) {
-  return 2;
+  //build mask 0x55555555 
+  int mask1 = (0x55 << 24) + (0x55 << 16) + (0x55 << 8) + 0x55;
+  //build mask 0x33333333
+  int mask2 = (0x33 << 24) + (0x33 << 16) + (0x33 << 8) + 0x33;
+  //build mask 0x0F0F0F0F
+  int mask3 = (0x0F << 24) + (0x0F << 16) + (0x0F << 8) + 0x0F;
+  //build mask 0x00FF00FF
+  int mask4 = (0xFF << 16) + 0xFF;
+  //build mask 0x0000FFFF
+  int mask5 = (0xFF << 8) + 0xFF;
+  int result = ((x >> 1) & mask1) + (x & mask1);
+  result = ((result >> 2) & mask2) + (result & mask2);
+  result = ((result >> 4) & mask3) + (result & mask3);
+  result = ((result >> 8) & mask4) + (result & mask4);
+  result = ((result >> 16) & mask5) + (result & mask5); 
+  return result;
 }
 /* 
  * bang - Compute !x without using !
