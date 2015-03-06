@@ -185,7 +185,7 @@ int logicalShift(int x, int n) {
  *   Rating: 4
  */
 int bitCount(int x) {
-  //build mask 0x55555555 
+    //build mask 0x55555555 
   int mask1 = (0x55 << 24) + (0x55 << 16) + (0x55 << 8) + 0x55;
   //build mask 0x33333333
   int mask2 = (0x33 << 24) + (0x33 << 16) + (0x33 << 8) + 0x33;
@@ -219,7 +219,7 @@ int bang(int x) {
  *   Rating: 1
  */
 int tmin(void) {
-  return 2;
+  return (0x1 << 31);
 }
 /* 
  * fitsBits - return 1 if x can be represented as an 
