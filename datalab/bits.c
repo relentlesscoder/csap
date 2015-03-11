@@ -185,7 +185,7 @@ int logicalShift(int x, int n) {
  *   Rating: 4
  */
 int bitCount(int x) {
-    //build mask 0x55555555 
+  //build mask 0x55555555 
   int mask1 = (0x55 << 24) + (0x55 << 16) + (0x55 << 8) + 0x55;
   //build mask 0x33333333
   int mask2 = (0x33 << 24) + (0x33 << 16) + (0x33 << 8) + 0x33;
@@ -265,7 +265,8 @@ int negate(int x) {
  *   Rating: 3
  */
 int isPositive(int x) {
-  return 2;
+  int i = (x >> 31);
+  return !(i | !(x ^ 0));
 }
 /* 
  * isLessOrEqual - if x <= y  then return 1, else return 0 
