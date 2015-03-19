@@ -164,18 +164,12 @@ int getByte(int x, int n) {
  */
 int logicalShift(int x, int n) {
   int mask_set = 0x1;
-  //construct 0x80000000
-  mask_set = (mask_set << 31);
-  //set the n+1 most significant bits to 1, the rest bits are 0
-  mask_set = (mask_set >> n);
-  //left shift to remove the extra 1 bit
-  mask_set = (mask_set << 1);
-  //set the n most significant bit to 0, the rest bits are 1
-  mask_set = ~mask_set;
-  //right shift x, it is arithmetic
-  x = (x >> n);
-  //clear the most significant n bits and maintain the rest   
-  return (x & mask);
+  mask_set = (mask_set << 31); /* construct 0x80000000 */
+  mask_set = (mask_set >> n); /* set the n+1 most significant bits to 1, the rest bits are 0 */
+  mask_set = (mask_set << 1); /* left shift to remove the extra 1 bit */
+  mask_set = ~mask_set; /* set the n most significant bit to 0, the rest bits are 1 */
+  x = (x >> n); /* right shift x, it is arithmetic */  
+  return (x & mask); /* clear the most significant n bits and maintain the rest */
 }
 /*
  * bitCount - returns count of number of 1's in word
@@ -185,16 +179,11 @@ int logicalShift(int x, int n) {
  *   Rating: 4
  */
 int bitCount(int x) {
-  //build mask 0x55555555 
-  int mask1 = (0x55 << 24) + (0x55 << 16) + (0x55 << 8) + 0x55;
-  //build mask 0x33333333
-  int mask2 = (0x33 << 24) + (0x33 << 16) + (0x33 << 8) + 0x33;
-  //build mask 0x0F0F0F0F
-  int mask3 = (0x0F << 24) + (0x0F << 16) + (0x0F << 8) + 0x0F;
-  //build mask 0x00FF00FF
-  int mask4 = (0xFF << 16) + 0xFF;
-  //build mask 0x0000FFFF
-  int mask5 = (0xFF << 8) + 0xFF;
+  int mask1 = (0x55 << 24) + (0x55 << 16) + (0x55 << 8) + 0x55; /* build mask 0x55555555 */
+  int mask2 = (0x33 << 24) + (0x33 << 16) + (0x33 << 8) + 0x33; /* build mask 0x33333333 */
+  int mask3 = (0x0F << 24) + (0x0F << 16) + (0x0F << 8) + 0x0F; /* build mask 0x0F0F0F0F */
+  int mask4 = (0xFF << 16) + 0xFF; /* build mask 0x00FF00FF */
+  int mask5 = (0xFF << 8) + 0xFF; /* build mask 0x0000FFFF */
   int result = ((x >> 1) & mask1) + (x & mask1);
   result = ((result >> 2) & mask2) + (result & mask2);
   result = ((result >> 4) & mask3) + (result & mask3);
@@ -272,6 +261,7 @@ int negate(int x) {
  */
 int isPositive(int x) {
   int i = (x >> 31);
+  i = i & 0x1;
   return !(i | !(x ^ 0));
 }
 /* 
@@ -282,7 +272,13 @@ int isPositive(int x) {
  *   Rating: 3
  */
 int isLessOrEqual(int x, int y) {
-  return 2;
+  int negate_x = ~x;
+  negate_x += 1;
+  int result = y + negate_x;
+  result = result >> 31
+  result = result & 0x1; 
+  int mask = 0x1 << 31; /* need to exclude the case when x = 0x80000000 */ 
+  return !(x ^ mask)|!(result);
 }
 /*
  * ilog2 - return floor(log base 2 of x), where x > 0
