@@ -302,7 +302,13 @@ int ilog2(int x) {
  *   Rating: 2
  */
 unsigned float_neg(unsigned uf) {
- return 2;
+  int mask = 0xff << 24;
+  int exp = uf << 1;
+  if((uf << 9) && !(exp & mask ^ mask)){
+    return uf;
+  }
+  int mask_sign_bit = 0x1 << 31;
+  return uf ^ mask_sign_bit;
 }
 /* 
  * float_i2f - Return bit-level equivalent of expression (float) x
