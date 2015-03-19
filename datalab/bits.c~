@@ -185,7 +185,7 @@ int logicalShift(int x, int n) {
  *   Rating: 4
  */
 int bitCount(int x) {
-    //build mask 0x55555555 
+  //build mask 0x55555555 
   int mask1 = (0x55 << 24) + (0x55 << 16) + (0x55 << 8) + 0x55;
   //build mask 0x33333333
   int mask2 = (0x33 << 24) + (0x33 << 16) + (0x33 << 8) + 0x33;
@@ -210,7 +210,13 @@ int bitCount(int x) {
  *   Rating: 4 
  */
 int bang(int x) {
-  return 2;
+  int result = (x >> 16) | x;
+  result = (result >> 8) | result;
+  result = (result >> 4) | result;
+  result = (result >> 2) | result;
+  result = (result >> 1) | result;
+  result = result & 0x1;
+  return (result ^ 0x1);
 }
 /* 
  * tmin - return minimum two's complement integer 
@@ -231,7 +237,7 @@ int tmin(void) {
  *   Rating: 2
  */
 int fitsBits(int x, int n) {
-  return 2;
+  return !((x + ((x >> 31) & ((1 << n) + ~0)) >> n);
 }
 /* 
  * divpwr2 - Compute x/(2^n), for 0 <= n <= 30
@@ -242,7 +248,8 @@ int fitsBits(int x, int n) {
  *   Rating: 2
  */
 int divpwr2(int x, int n) {
-    return 2;
+  //add 2^n - 1 to x if x is negative
+  return (x + ((x >> 31) & ((1 << n) + ~0)) >> n;
 }
 /* 
  * negate - return -x 
@@ -252,7 +259,9 @@ int divpwr2(int x, int n) {
  *   Rating: 2
  */
 int negate(int x) {
-  return 2;
+  int result = ~x;
+  result += 1;
+  return result;
 }
 /* 
  * isPositive - return 1 if x > 0, return 0 otherwise 
@@ -262,7 +271,8 @@ int negate(int x) {
  *   Rating: 3
  */
 int isPositive(int x) {
-  return 2;
+  int i = (x >> 31);
+  return !(i | !(x ^ 0));
 }
 /* 
  * isLessOrEqual - if x <= y  then return 1, else return 0 

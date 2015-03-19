@@ -210,7 +210,13 @@ int bitCount(int x) {
  *   Rating: 4 
  */
 int bang(int x) {
-  return 2;
+  int result = (x >> 16) | x;
+  result = (result >> 8) | result;
+  result = (result >> 4) | result;
+  result = (result >> 2) | result;
+  result = (result >> 1) | result;
+  result = result & 0x1;
+  return (result ^ 0x1);
 }
 /* 
  * tmin - return minimum two's complement integer 
